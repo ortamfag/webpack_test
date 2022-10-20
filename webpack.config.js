@@ -1,8 +1,15 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
+let mode = 'development'
+
 module.exports = {
-    mode: 'development',
+    mode: mode,
+    devtool: 'source-map',
+    devServer: {
+        hot: true,
+        port: 3000
+    },
     plugins: [
         new MiniCssExtractPlugin(),
         new HtmlWebpackPlugin({
@@ -14,7 +21,7 @@ module.exports = {
             {
                 test: /\.(sa|sc|c)ss$/,
                 use: [
-                    MiniCssExtractPlugin.loader,
+                    (mode === 'development') ? "style-loader" : MiniCssExtractPlugin.loader,
                     'css-loader',
                     {
                         loader: "postcss-loader",
