@@ -1,0 +1,1 @@
+{"version":3,"file":"main.7a14dcca3b82c7ce311a.js","mappings":"yBAEuBA,QAAQC,IAAI,Q","sources":["webpack://webpack_test/./src/index.js"],"sourcesContent":["import './styles/index.scss'\r\n\r\nconst sayHello = () => console.log('hello');\r\nsayHello();"],"names":["console","log"],"sourceRoot":""}

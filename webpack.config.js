@@ -7,7 +7,7 @@ let mode = 'production' //development production
 module.exports = {
     mode: mode,
     output: {
-        filename: 'bundle.[contenthash].js',
+        filename: '[name].[contenthash].js',
         assetModuleFilename: "assets/[hash][ext][query]",
         clean: true,
     },
@@ -58,12 +58,35 @@ module.exports = {
 
             {
                 test: /\.(png|svg|jpg|jpeg|gif|webp|ico)$/i,
-                type: 'asset/resource'
+                type: 'asset/resource',
             },
 
             {
                 test: /\.(woff|woff2|eot|ttf|otf)$/i,
                 type: 'asset/resource'
+            },
+
+            {
+                test: /\.m?js$/,
+                exclude: /node_modules/,
+                use: {
+                    loader: "babel-loader",
+                    options: {
+                        cacheDirectory: true,
+                        presets: ['@babel/preset-env']
+                    }
+                }
+            },
+
+            {
+                test: /\.m?jsx$/,
+                exclude: /node_modules/,
+                use: {
+                    loader: "babel-loader",
+                    options: {
+                        presets: ['@babel/preset-react', '@babel/preset-env']
+                    }
+                }
             }
         ]
     }
