@@ -1,29 +1,41 @@
+const { join, resolve } = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const FixStyleOnlyEntriesPlugin = require('webpack-fix-style-only-entries')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 
-let mode = 'production' //development production
+const base = join(__dirname, 'src')
+const scssSrc = join(base, 'styles')
 
+let mode = 'development' //development production
 module.exports = {
     mode: mode,
+    entry: {
+        'assets/js/bundle': join(base, 'bundle.js'),
+        'assets/css/bundle': join(scssSrc, 'index.scss'),
+    },
+    optimization: {
+        runtimeChunk: 'single',
+    },
     output: {
-        filename: '[name].[contenthash].js',
-        assetModuleFilename: "assets/[hash][ext][query]",
+        filename: '[name].js',
+        path: resolve(__dirname, 'dist'),
+        assetModuleFilename: "assets/[name][ext][query]",
         clean: true,
     },
-    devtool: 'source-map',
+    devtool: false, //'source-map'
     devServer: {
-        hot: true,
         port: 3000
     },
     plugins: [
         new MiniCssExtractPlugin({
-            filename: '[name].[contenthash].css'
+            filename: '[name].css'
         }),
         new HtmlWebpackPlugin({
             template: "./src/index.html"
         }),
-        new CleanWebpackPlugin()
+        new CleanWebpackPlugin(),
+        new FixStyleOnlyEntriesPlugin(),
     ],
     module: {
         rules: [
@@ -53,17 +65,23 @@ module.exports = {
                         }
                     },
                     'sass-loader'
-                ]
+                ],
             },
 
             {
                 test: /\.(png|svg|jpg|jpeg|gif|webp|ico)$/i,
                 type: 'asset/resource',
+                generator: {
+                    filename: 'assets/images/[name].[ext]'
+                }
             },
 
             {
                 test: /\.(woff|woff2|eot|ttf|otf)$/i,
-                type: 'asset/resource'
+                type: 'asset/resource',
+                generator: {
+                    filename: 'assets/fonts/[name].[ext]'
+                }
             },
 
             {
