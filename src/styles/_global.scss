@@ -1,6 +1,10 @@
 $primaryColor: darkcyan;
 $secondaryColor: darkslategray;
 
+html {
+    font-family: generalFont;
+}
+
 h1 {
     color: $primaryColor;
 }

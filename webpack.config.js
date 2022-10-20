@@ -1,12 +1,15 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 
-let mode = 'production'
+let mode = 'production' //development production
 
 module.exports = {
     mode: mode,
     output: {
-        assetModuleFilename: "assets/[hash][ext][query]"
+        filename: 'bundle.[contenthash].js',
+        assetModuleFilename: "assets/[hash][ext][query]",
+        clean: true,
     },
     devtool: 'source-map',
     devServer: {
@@ -19,10 +22,15 @@ module.exports = {
         }),
         new HtmlWebpackPlugin({
             template: "./src/index.html"
-        })
+        }),
+        new CleanWebpackPlugin()
     ],
     module: {
         rules: [
+            {
+                test: /\.html$/i,
+                loader: "html-loader",
+            },
             {
                 test: /\.(sa|sc|c)ss$/,
                 use: [
@@ -49,7 +57,12 @@ module.exports = {
             },
 
             {
-                test: /\.(png|svg|jpg|jpeg|gif)$/i,
+                test: /\.(png|svg|jpg|jpeg|gif|webp|ico)$/i,
+                type: 'asset/resource'
+            },
+
+            {
+                test: /\.(woff|woff2|eot|ttf|otf)$/i,
                 type: 'asset/resource'
             }
         ]
