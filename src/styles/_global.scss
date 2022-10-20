@@ -2,9 +2,12 @@ $primaryColor: darkcyan;
 $secondaryColor: darkslategray;
 
 h1 {
-    color: $primaryColor
+    color: $primaryColor;
 }
 
 h2 {
-    color: $secondaryColor
+    color: $secondaryColor;
+    display: block;
+    height: 140px;
+    background: url("../images/bad.png");
 }

@@ -1,1 +1,0 @@
-{"version":3,"file":"main.css","mappings":"AAGA,GACI,aAJW,CAOf,GACI,aAPa,C","sources":["webpack://webpack_test/./src/styles/_global.scss"],"sourcesContent":["$primaryColor: darkcyan;\r\n$secondaryColor: darkslategray;\r\n\r\nh1 {\r\n    color: $primaryColor\r\n}\r\n\r\nh2 {\r\n    color: $secondaryColor\r\n}"],"names":[],"sourceRoot":""}

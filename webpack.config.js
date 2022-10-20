@@ -5,13 +5,18 @@ let mode = 'production'
 
 module.exports = {
     mode: mode,
+    output: {
+        assetModuleFilename: "assets/[hash][ext][query]"
+    },
     devtool: 'source-map',
     devServer: {
         hot: true,
         port: 3000
     },
     plugins: [
-        new MiniCssExtractPlugin(),
+        new MiniCssExtractPlugin({
+            filename: '[name].[contenthash].css'
+        }),
         new HtmlWebpackPlugin({
             template: "./src/index.html"
         })
@@ -41,6 +46,11 @@ module.exports = {
                     },
                     'sass-loader'
                 ]
+            },
+
+            {
+                test: /\.(png|svg|jpg|jpeg|gif)$/i,
+                type: 'asset/resource'
             }
         ]
     }
