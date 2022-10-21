@@ -1,25 +1,27 @@
-const { join, resolve } = require('path')
+const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const FixStyleOnlyEntriesPlugin = require('webpack-fix-style-only-entries')
+// const FixStyleOnlyEntriesPlugin = require('webpack-fix-style-only-entries')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 
-const base = join(__dirname, 'src')
-const scssSrc = join(base, 'styles')
+// const base = path.join(__dirname, 'src')
+// const scssSrc = path.join(base, 'styles')
 
-let mode = 'development' //development production
+let mode = 'production' //development production
 module.exports = {
     mode: mode,
     entry: {
-        'assets/js/bundle': join(base, 'bundle.js'),
-        'assets/css/bundle': join(scssSrc, 'index.scss'),
+        'assets/js/bundle': path.resolve(__dirname, 'src/bundle.js'),
+        // 'assets/js/bundle': join(base, 'bundle.js'),
+        // 'assets/css/bundle': path.join(scssSrc, 'index.scss'),
     },
-    optimization: {
-        runtimeChunk: 'single',
-    },
+    // optimization: {
+    //     runtimeChunk: 'single',
+    // },
     output: {
         filename: '[name].js',
-        path: resolve(__dirname, 'dist'),
+        path: path.resolve(__dirname, 'dist'),
         assetModuleFilename: "assets/[name][ext][query]",
         clean: true,
     },
@@ -35,7 +37,15 @@ module.exports = {
             template: "./src/index.html"
         }),
         new CleanWebpackPlugin(),
-        new FixStyleOnlyEntriesPlugin(),
+        // new FixStyleOnlyEntriesPlugin(),
+        // new CopyWebpackPlugin({
+        //     patterns: [
+        //         {
+        //             from: path.resolve(__dirname, 'src/styles/index.scss'),
+        //             to: path.resolve(__dirname, 'dist/css/index.css')
+        //         }
+        //     ]
+        // })
     ],
     module: {
         rules: [
@@ -53,26 +63,20 @@ module.exports = {
                         options: {
                             postcssOptions: {
                                 plugins: [
-                                    [
-                                        "postcss-preset-env",
-
-                                        {
-                                            //options
-                                        }
-                                    ]
+                                    ["postcss-preset-env",]
                                 ]
                             }
                         }
                     },
-                    'sass-loader'
-                ],
+                    'sass-loader',
+                ],     
             },
 
             {
                 test: /\.(png|svg|jpg|jpeg|gif|webp|ico)$/i,
                 type: 'asset/resource',
                 generator: {
-                    filename: 'assets/images/[name].[ext]'
+                    filename: 'assets/images/[name][ext]'
                 }
             },
 
