@@ -7,10 +7,13 @@ let mode = 'production' //development, production
 module.exports = {
     mode: mode,
     // entry: {
-    //     'assets/js/bundle': path.resolve(__dirname, 'src/bundle.js'),
+        
+    //     'assets/js/index': path.resolve(__dirname, 'src/index.js'),
     // },
+
+    entry: ["@babel/polyfill", "./src/index.jsx"],
     output: {
-        filename: 'bundle.js',
+        filename: 'index.js',
         path: path.resolve(__dirname, 'dist'),
         assetModuleFilename: "assets/[name][ext][query]",
         clean: true,
@@ -18,6 +21,11 @@ module.exports = {
     devtool: false, //'source-map'
     devServer: {
         port: 3000
+    },
+        performance: {
+        hints: false,
+        maxEntrypointSize: 512000,
+        maxAssetSize: 512000
     },
     plugins: [
         new MiniCssExtractPlugin({
@@ -30,10 +38,10 @@ module.exports = {
     ],
     module: {
         rules: [
-            {
-                test: /\.html$/i,
-                loader: "html-loader",
-            },
+            // {
+            //     test: /\.html$/i,
+            //     loader: "html-loader",
+            // },
             {
                 test: /\.(sa|sc|c)ss$/,
                 use: [
@@ -77,19 +85,22 @@ module.exports = {
             },
 
             {
-                test: /\.m?js$/,
+                test: /\.js$/,
                 exclude: /node_modules/,
                 use: {
                     loader: "babel-loader",
                     options: {
-                        cacheDirectory: true,
-                        presets: ['@babel/preset-env']
+                        presets: ['@babel/preset-env', '@babel/preset-react',
+                        {
+                            'plugins': ['@babel/plugin-proposal-class-properties']
+                        }]
+
                     }
                 }
             },
 
             {
-                test: /\.m?jsx$/,
+                test: /\.jsx$/,
                 exclude: /node_modules/,
                 use: {
                     loader: "babel-loader",
@@ -99,5 +110,8 @@ module.exports = {
                 }
             }
         ]
-    }
+    },
+    resolve: {
+        extensions: ['.js', '.jsx'],
+    },
 }
