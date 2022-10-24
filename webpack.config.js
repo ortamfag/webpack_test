@@ -6,14 +6,10 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 let mode = 'production' //development, production
 module.exports = {
     mode: mode,
-    // entry: {
-        
-    //     'assets/js/index': path.resolve(__dirname, 'src/index.js'),
-    // },
-
-    entry: ["@babel/polyfill", "./src/index.ts"],
+    entry: ["@babel/polyfill", "./src/index.jsx"], //javascript
+    // entry: ["@babel/polyfill", "./src/index.ts"], //typescript
     output: {
-        filename: 'index.js',
+        filename: 'assets/js/bundle.js',
         path: path.resolve(__dirname, 'dist'),
         assetModuleFilename: "assets/[name][ext][query]",
         clean: true,
@@ -22,7 +18,7 @@ module.exports = {
     devServer: {
         port: 3000
     },
-        performance: {
+    performance: {
         hints: false,
         maxEntrypointSize: 512000,
         maxAssetSize: 512000
