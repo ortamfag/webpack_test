@@ -1,3 +1,5 @@
+import './styles/index.scss'
+
 let firstNumber = 1
 let secondNumber = 2
 
