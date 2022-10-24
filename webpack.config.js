@@ -11,7 +11,7 @@ module.exports = {
     //     'assets/js/index': path.resolve(__dirname, 'src/index.js'),
     // },
 
-    entry: ["@babel/polyfill", "./src/index.jsx"],
+    entry: ["@babel/polyfill", "./src/index.ts"],
     output: {
         filename: 'index.js',
         path: path.resolve(__dirname, 'dist'),
@@ -47,6 +47,9 @@ module.exports = {
                 use: [
                     (mode === 'development') ? "style-loader" : MiniCssExtractPlugin.loader,
                     'css-loader',
+                    {
+                        loader: "css-modules-typescript-loader"
+                    },
                     {
                         loader: "postcss-loader",
                         options: {
@@ -108,10 +111,16 @@ module.exports = {
                         presets: ['@babel/preset-react', '@babel/preset-env']
                     }
                 }
+            },
+
+            {
+                test: /\.ts$/,
+                use: 'ts-loader',
+                exclude: /node_modules/
             }
         ]
     },
     resolve: {
-        extensions: ['.js', '.jsx'],
+        extensions: ['.js', '.jsx', '.ts'],
     },
 }
